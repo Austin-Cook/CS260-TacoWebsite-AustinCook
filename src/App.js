@@ -13,8 +13,8 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <NavbarComp />  {/* Navbar */}
-        {/*<Switch>
+        <NavbarComp className="yellow" />  {/* Navbar */}
+        <Switch>
           <Route exact path='/'>
             <Home />
           </Route>
@@ -30,11 +30,8 @@ function App() {
           <Route path='/About'>
             <About />
           </Route>
-        </Switch>*/}
-        <Home />
-        <Menu />
-        <Contact />
-        <About />
+        </Switch>
+
         <FooterComp />  {/* Footer */}
       </div>
     </Router>

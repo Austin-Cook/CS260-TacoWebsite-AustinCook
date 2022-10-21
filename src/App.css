@@ -1,6 +1,6 @@
 /* Page Styles */
-body, .bg-light {
-    background-color: #FFDF00;    /* Yellow */
+body, .yellow {
+    background-color: #FFDF00 !important;    /* Yellow */
     font-family: 'arial black';
 }
 

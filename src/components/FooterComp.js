@@ -10,7 +10,7 @@ function FooterComp() {
                     <p>154 W El Camino Real, Sunnyvale, CA 94087</p>
                     <p>208 515 0001</p>
                     <hr className='header-hr' />
-                    <a href="https://github.com/Austin-Cook/Creative-Project-Austin-Cook">Link to Github Repo</a>
+                    <a href="https://github.com/Austin-Cook/CS260-TacoWebsite-AustinCook" target="_blank">Link to Github Repo</a>
                     <p>© 2022 Supreme Tacos LLC</p>
                 </div>
             </div>  

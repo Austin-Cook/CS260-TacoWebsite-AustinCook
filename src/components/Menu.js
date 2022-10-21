@@ -48,7 +48,7 @@ class Menu extends React.Component {
                     </div>
                     <div className='row-text left-aligned'>
                         <h1 className='arial-black'>Tacos</h1>
-                        <p className='courier-new'>Chorizo     $1.85</p>
+                        <p className='courier-new'>Chorizoclass     $1.85</p>
                         <hr className='flex-right' />
                         <p className='courier-new'>Cabeza      $1.85</p>
                         <hr className='flex-right' />

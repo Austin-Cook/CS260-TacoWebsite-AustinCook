@@ -12,20 +12,19 @@ class Home extends React.Component {
                 <div photo>
                     <Link to={"/Menu"} ><img src={tacos3} /></Link>
                 </div>
+                {/* Page Content */}
                 <div className='page'>
-                    {/* Page Content */}
-                    <div className='page'>
-                        <div className='row bottom-row'>
-                            <div className='row-text center-aligned'>
-                                <h1>Come on in for Tacos + Friends and good times.</h1>
-                            </div>
-                    
-                            <div className='row-image'>
-                                <img src={eattaco} />
-                            </div>
+                    <div className='row bottom-row'>
+                        <div className='row-text center-aligned'>
+                            <h1>Come on in for Tacos + Friends and good times.</h1>
+                        </div>
+                
+                        <div className='row-image'>
+                            <img src={eattaco} />
                         </div>
                     </div>
                 </div>
+                
             </div>
             );
     }
