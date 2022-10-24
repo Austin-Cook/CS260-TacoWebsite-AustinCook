@@ -6,7 +6,7 @@ import Menu from './components/Menu.js';
 import Contact from './components/Contact.js';
 import About from './components/About.js';
 
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
