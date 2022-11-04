@@ -23,6 +23,23 @@ class Home extends React.Component {
                             <img src={eattaco} />
                         </div>
                     </div>
+                    <div className='vertical-row top-row'>
+                        <div>
+                            <h3>Our Visitors' States/Countries:</h3>
+                        </div>
+                        <div>
+                            <h3>Reviews:</h3>
+                        </div>
+                        
+                        
+                        <div>
+                            <h5>Add your home State/Country:</h5>
+                        </div>
+                        <div>
+                            <h5>Add a Review:</h5>
+                        </div>
+                        
+                    </div>
                 </div>
                 
             </div>
