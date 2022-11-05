@@ -104,7 +104,7 @@ const Review = mongoose.model('Review', reviewSchema);
 
 app.get('/api/reviews', async (req, res) => {
   try {
-    let travelers = await Review.find();
+    let reviews = await Review.find();
     res.send({
       reviews: reviews
     });
