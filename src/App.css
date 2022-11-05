@@ -83,6 +83,20 @@ img {
     flex-direction: column;
 }
 
+.flex-horizontal {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-vertical {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-margin {
+    margin: 10px;
+}
+
 .top-row {
     padding-top: 2%;
 }
