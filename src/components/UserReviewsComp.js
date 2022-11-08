@@ -39,6 +39,18 @@ function UserReviewsComp() {
             setError("error deleting a traveler" + error);
         }
     }
+    const deleteOneTravelerByName = async () => {
+        const traveler = travelers.find(traveler => {
+            return traveler.name == name;
+        });
+        
+        try {
+            await axios.delete("/api/travelers/" + traveler.id);
+        }
+        catch (error) {
+            setError("error deleting a traveler" + error);
+        }
+    }
 
     // fetch traveler data
     useEffect(() => {
@@ -56,6 +68,13 @@ function UserReviewsComp() {
     const deleteTraveler = async (traveler) => {
         await deleteOneTraveler(traveler);
         fetchTravelers();
+    }
+    
+    const deleteTravelerByName = async () => {
+        await deleteOneTravelerByName()
+        fetchTravelers();
+        setName("");
+        setPlace("");
     }
 
     // render results
@@ -82,7 +101,12 @@ function UserReviewsComp() {
                     <h3>Visitors:</h3>
                 </div>
                 <div className='less-bold center'>
-                    <p>Text</p>
+                    {travelers.map( traveler => (
+                        <div key={traveler.id}>
+                            <p><strong>{traveler.name}</strong> - <em>{traveler.place}</em></p>
+                            {/**/}
+                        </div>))
+                    }
                 </div>
             
                 <div>
@@ -92,7 +116,7 @@ function UserReviewsComp() {
                     <div>
                       <label className='flex-vertical'>
                         Name:
-                        <input type="text" value={name} onChange={e => setName(e.target.value)} />
+                        <input id="nameInput" type="text" value={name} onChange={e => setName(e.target.value)} />
                       </label>
                     </div>
                     <div>
@@ -102,6 +126,7 @@ function UserReviewsComp() {
                       </label>
                     </div>
                     <input type="submit" value="Submit" className='add-margin' />
+                    <button type="button" onClick={e => deleteTravelerByName() } >Delete by Name</button>
                 </form>
             </div>
         </div>

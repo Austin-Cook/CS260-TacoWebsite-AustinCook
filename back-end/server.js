@@ -18,6 +18,7 @@ mongoose.connect(
   }
 );
 
+// Travelers
 // scheme for visiting travelers
 const travelerSchema = new mongoose.Schema({
   name: String,
