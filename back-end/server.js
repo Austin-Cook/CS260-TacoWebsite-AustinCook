@@ -84,7 +84,7 @@ app.delete('/api/travelers/:id', async (req, res) => {
 // Reviews
 // scheme for reviews
 const reviewSchema = new mongoose.Schema({
-  name: String,
+  reviewName: String,
   text: String,
   rating: String,
 });
@@ -117,7 +117,7 @@ app.get('/api/reviews', async (req, res) => {
 
 app.post('/api/reviews', async (req, res) => {
   const review = new Review({
-    name: req.body.name,
+    reviewName: req.body.reviewName,
     text: req.body.text,
     rating: req.body.rating
   });

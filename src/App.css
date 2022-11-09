@@ -19,6 +19,10 @@ img {
     width: 100%;
 }
 
+.star {
+    width: 100px;
+}
+
 .photo {
     padding-bottom: 0;
     margin-bottom: 0;
@@ -91,6 +95,10 @@ img {
 .flex-vertical {
     display: flex;
     flex-direction: column;
+}
+
+.space-between {
+    justify-content: space-between;
 }
 
 .add-margin {
