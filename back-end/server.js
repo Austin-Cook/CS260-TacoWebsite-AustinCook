@@ -39,7 +39,7 @@ travelerSchema.set('toJSON', {
 // create a model for travelers
 const Traveler = mongoose.model('Traveler', travelerSchema);
 
-app.get('/api/travelers', async (req, res) => {
+app.get('/api/taco/travelers', async (req, res) => {
   try {
     let travelers = await Traveler.find();
     res.send({
@@ -51,7 +51,7 @@ app.get('/api/travelers', async (req, res) => {
   }
 });
 
-app.post('/api/travelers', async (req, res) => {
+app.post('/api/taco/travelers', async (req, res) => {
   const traveler = new Traveler({
     name: req.body.name,
     place: req.body.place
@@ -67,7 +67,7 @@ app.post('/api/travelers', async (req, res) => {
   }
 });
 
-app.delete('/api/travelers/:id', async (req, res) => {
+app.delete('/api/taco/travelers/:id', async (req, res) => {
   try {
     await Traveler.deleteOne({
       _id: req.params.id
@@ -103,7 +103,7 @@ reviewSchema.set('toJSON', {
 // create a model for reviews
 const Review = mongoose.model('Review', reviewSchema);
 
-app.get('/api/reviews', async (req, res) => {
+app.get('/api/taco/reviews', async (req, res) => {
   try {
     let reviews = await Review.find();
     res.send({
@@ -115,7 +115,7 @@ app.get('/api/reviews', async (req, res) => {
   }
 });
 
-app.post('/api/reviews', async (req, res) => {
+app.post('/api/taco/reviews', async (req, res) => {
   const review = new Review({
     reviewName: req.body.reviewName,
     text: req.body.text,
@@ -132,7 +132,26 @@ app.post('/api/reviews', async (req, res) => {
   }
 });
 
-app.delete('/api/reviews/:id', async (req, res) => {
+// Update a review
+app.put('/api/taco/reviews', async (req, res) => {
+  let updatedReview;
+  if(req.body.text == "") {
+    updatedReview = { reviewName: req.body.reviewName, rating: req.body.rating };
+  } else {
+    updatedReview = { reviewName: req.body.reviewName, text: req.body.text, rating: req.body.rating };
+  }
+  const filter = { reviewName: req.body.reviewName };
+  try {
+    let newReview = await Review.findOneAndUpdate(filter, updatedReview);
+    newReview = await Review.findOne(filter); //NOTE - the line above sets newReview to findOne before updating, so that is why I call findOne again.
+    res.send(newReview);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+});
+
+app.delete('/api/taco/reviews/:id', async (req, res) => {
   try {
     await Review.deleteOne({
       _id: req.params.id

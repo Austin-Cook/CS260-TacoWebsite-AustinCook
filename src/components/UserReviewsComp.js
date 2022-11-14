@@ -27,7 +27,7 @@ function UserReviewsComp() {
 
     const fetchTravelers = async () => {
         try {
-            const response = await axios.get("/api/travelers");
+            const response = await axios.get("/api/taco/travelers");
             setTravelers(response.data.travelers); //before just response.data.travelers
         }
         catch (error) {
@@ -36,7 +36,7 @@ function UserReviewsComp() {
     }
     const createTraveler = async () => {
         try {
-            await axios.post("/api/travelers", { name: name, place: place });
+            await axios.post("/api/taco/travelers", { name: name, place: place });
         }
         catch (error) {
             setError("error adding a traveler: " + error);
@@ -44,7 +44,7 @@ function UserReviewsComp() {
     }
     const deleteOneTraveler = async (traveler) => {
         try {
-            await axios.delete("/api/travelers/" + traveler.id);
+            await axios.delete("/api/taco/travelers/" + traveler.id);
         }
         catch (error) {
             setError("error deleting a traveler" + error);
@@ -56,7 +56,7 @@ function UserReviewsComp() {
         });
 
         try {
-            await axios.delete("/api/travelers/" + traveler.id);
+            await axios.delete("/api/taco/travelers/" + traveler.id);
         }
         catch (error) {
             setError("error deleting a traveler" + error);
@@ -65,7 +65,7 @@ function UserReviewsComp() {
 
     const fetchReviews = async () => {
         try {
-            const response = await axios.get("/api/reviews");
+            const response = await axios.get("/api/taco/reviews");
             setReviews(response.data.reviews); //before just response.data.reviews
         }
         catch (error) {
@@ -74,7 +74,7 @@ function UserReviewsComp() {
     }
     const createReview = async () => {
         try {
-            await axios.post("/api/reviews", { reviewName: reviewName, text: text, rating: rating });
+            await axios.post("/api/taco/reviews", { reviewName: reviewName, text: text, rating: rating });
         }
         catch (error) {
             setError("error adding a review: " + error);
@@ -82,10 +82,18 @@ function UserReviewsComp() {
     }
     const deleteOneReview = async (review) => {
         try {
-            await axios.delete("/api/reviews/" + review.id);
+            await axios.delete("/api/taco/reviews/" + review.id);
         }
         catch (error) {
             setError("error deleting a review" + error);
+        }
+    }
+    const updateOneReview = async (review) => {
+        try {
+            await axios.put("/api/taco/reviews", { reviewName: reviewName, text: text, rating: rating });
+        }
+        catch (error) {
+            setError("error updating a review" + error);
         }
     }
 
@@ -119,16 +127,36 @@ function UserReviewsComp() {
     const addReview = async (e) => {
         e.preventDefault();
         if(rating == "1" || rating == "2" || rating == "3" || rating == "4" || rating == "5") {
-            setReviewError("")
-            await createReview();
-            fetchReviews();
-            setReviewName("");
-            setText("");
-            setRating("");
+            if(reviewName != "") {
+                setReviewError("")
+                await createReview();
+                fetchReviews();
+                setReviewName("");
+                setText("");
+                setRating("");
+            } else {
+                setReviewError("Error: Name box must be full");
+            }
         } else {
-            setReviewError("Error: Rating must be between 1 and 5 stars")
+            setReviewError("Error: Rating must be between 1 and 5 stars");
         }
-        
+    }
+    
+    const updateReview = async () => {
+        if(rating == "1" || rating == "2" || rating == "3" || rating == "4" || rating == "5") {
+            if(reviewName != "") {
+                setReviewError("");
+                await updateOneReview();
+                fetchReviews();
+                setReviewName("");
+                setText("");
+                setRating("");
+            } else {
+                setReviewError("Error: Name box must be full");
+            }
+        } else {
+            setReviewError("Error: Rating must be between 1 and 5 stars");
+        }
     }
 
     const deleteReview = async (review) => {
@@ -138,85 +166,94 @@ function UserReviewsComp() {
 
     // render results
     return (
-        <div className='flex-horizontal'>
+        <div className='row'>
             <div className='vertical-row top-row'>
-                {error}
                 <div>
-                    <h3>Reviews:</h3>
-                </div>
-                <div className='less-bold'>
-                    {reviews.map( review => (
-                        <div key={review.id}>
-                            <div className='flex-horizontal space-between'>
-                                <p><strong>{review.reviewName}</strong></p>
-                                <div className='star'>
-                                    <img src={review.rating === "5" ? stars5 : review.rating === "4" ? stars4 : review.rating === "3" ? stars3 : review.rating === "2" ? stars2 : review.rating === "1" ? stars1 : "Error"} className='star-format' />
+                    {error}
+                    <div>
+                        <h3>Reviews:</h3>
+                    </div>
+                    <div className='less-bold'>
+                        {reviews.map( review => (
+                            <div key={review.id}>
+                                <div className='flex-horizontal space-between'>
+                                    <p><strong>{review.reviewName}</strong></p>
+                                    <div className='star'>
+                                        <img src={review.rating === "5" ? stars5 : review.rating === "4" ? stars4 : review.rating === "3" ? stars3 : review.rating === "2" ? stars2 : review.rating === "1" ? stars1 : "Error"} className='star-format' />
+                                    </div>
                                 </div>
-                            </div>
-                            <p><em>{review.text}</em></p>
-                        </div>))
-                    }
+                                <p><em>{review.text}</em></p>
+                            </div>))
+                        }
+                    </div>
                 </div>
                 
                 <div>
-                    <h5>Add a Review:</h5>
-                    {reviewError}
-                </div>
-                <div className='less-bold center'>
-                    <form className='less-bold center' onSubmit={addReview}>
-                        <div>
-                          <label className='flex-vertical'>
-                            Name:
-                            <input id="nameInput" type="text" value={reviewName} onChange={e => setReviewName(e.target.value)} />
-                          </label>
-                        </div>
-                        <div>
-                          <label className='flex-vertical'>
-                            Review:
-                            <textarea value={text} onChange={e=>setText(e.target.value)}></textarea>
-                          </label>
-                        </div>
-                        <div>
-                          <label className='flex-vertical'>
-                            Stars (1-5):
-                            <textarea value={rating} onChange={e=>setRating(e.target.value)}></textarea>
-                          </label>
-                        </div>
-                        <input type="submit" value="Submit Review" className='add-margin' />
-                    </form>
+                    <div>
+                        <h5>Add a Review:</h5>
+                        {reviewError}
+                    </div>
+                    <div className='less-bold center'>
+                        <form className='less-bold center' onSubmit={addReview}>
+                            <div>
+                              <label className='flex-vertical'>
+                                Name:
+                                <input id="nameInput" type="text" value={reviewName} onChange={e => setReviewName(e.target.value)} />
+                              </label>
+                            </div>
+                            <div>
+                              <label className='flex-vertical'>
+                                Stars (1-5):
+                                <input type="text" value={rating} onChange={e=>setRating(e.target.value)}></input>
+                              </label>
+                            </div>
+                            <div>
+                              <label className='flex-vertical'>
+                                Review:
+                                <textarea value={text} onChange={e=>setText(e.target.value)}></textarea>
+                              </label>
+                            </div>
+                            <input type="submit" value="Submit Review" className='add-margin' />
+                            <button type="button" onClick={e => updateReview() } >Update by Name</button>
+                        </form>
+                    </div>
                 </div>
             </div>
             <div className='vertical-row top-row'>
                 <div>
-                    <h3 className='center'>Visitors from All Around:</h3>
-                </div>
-                <div className='less-bold center'>
-                    {travelers.map( traveler => (
-                        <div key={traveler.id}>
-                            <p><strong>{traveler.name}</strong> - <em>{traveler.place}</em></p>
-                        </div>))
-                    }
+                    <div>
+                        <h3 className='center'>Visitors from all around:</h3>
+                    </div>
+                    <div className='less-bold center'>
+                        {travelers.map( traveler => (
+                            <div key={traveler.id}>
+                                <p><strong>{traveler.name}</strong> - <em>{traveler.place}</em></p>
+                            </div>))
+                        }
+                    </div>
                 </div>
             
                 <div>
-                    <h5>Where are you from?</h5>
+                    <div>
+                        <h5>Where are you from?</h5>
+                    </div>
+                    <form className='less-bold center' onSubmit={addTraveler}>
+                        <div>
+                          <label className='flex-vertical'>
+                            Name:
+                            <input id="nameInput" type="text" value={name} onChange={e => setName(e.target.value)} />
+                          </label>
+                        </div>
+                        <div>
+                          <label className='flex-vertical'>
+                            Place:
+                            <textarea value={place} onChange={e=>setPlace(e.target.value)}></textarea>
+                          </label>
+                        </div>
+                        <input type="submit" value="Submit" className='add-margin' />
+                        <button type="button" onClick={e => deleteTravelerByName() } >Delete by Name</button>
+                    </form>
                 </div>
-                <form className='less-bold center' onSubmit={addTraveler}>
-                    <div>
-                      <label className='flex-vertical'>
-                        Name:
-                        <input id="nameInput" type="text" value={name} onChange={e => setName(e.target.value)} />
-                      </label>
-                    </div>
-                    <div>
-                      <label className='flex-vertical'>
-                        Place:
-                        <textarea value={place} onChange={e=>setPlace(e.target.value)}></textarea>
-                      </label>
-                    </div>
-                    <input type="submit" value="Submit" className='add-margin' />
-                    <button type="button" onClick={e => deleteTravelerByName() } >Delete by Name</button>
-                </form>
             </div>
         </div>
     )
